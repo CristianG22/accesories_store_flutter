@@ -1,9 +1,11 @@
+import 'package:accesories_store/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../presentation/screens/home_screen.dart';
-import '../../presentation/screens/main_screen.dart';
+import '../../presentation/screens/test_screen.dart';
 import '../../presentation/screens/checkout_screen.dart';
 import '../../presentation/screens/profile_screen.dart';
+
 
 final GoRouter router = GoRouter(
   routes: [
@@ -16,6 +18,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
+    ),
+    GoRoute(
+      path: '/test',
+      builder: (context, state) => const TestScreen(),
     ),
   ],
 );

@@ -14,8 +14,13 @@ class MainApp extends StatelessWidget {
       routerConfig: router,
       title: 'Accesorios Store',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        useMaterial3: false,
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Color(0xFF6D6B6B), // Fondo personalizado
+          selectedItemColor: Colors.black, // Color del ítem seleccionado
+          unselectedItemColor: Colors.black, // Color de los ítems no seleccionados
+          elevation: 0, // Eliminar sombra
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
