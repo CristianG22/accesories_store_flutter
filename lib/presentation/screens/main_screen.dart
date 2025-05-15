@@ -1,3 +1,5 @@
+import 'package:accesories_store/widgets/CustomAppBar.dart';
+import 'package:accesories_store/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,20 +10,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text(
-          'JKtecno',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 75, 74, 74),
-        elevation: 0, // opcional para eliminar sombra
-      ),
+      appBar: const CustomAppBar(),
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +28,9 @@ class MainScreen extends StatelessWidget {
               ),
             ),
           ),
+
           const SizedBox(height: 25),
+
           Container(
             width: 380,
             height: 150,
@@ -65,108 +56,35 @@ class MainScreen extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                children: [
-                  Container(
-                    width: 100, // Tamaño fijo para el círculo
-                    height: 100, // Tamaño fijo para el círculo
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 75, 74, 74),
-                      shape: BoxShape.circle, // Esto hace que sea circular
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        enableFeedback: false,
-                        onPressed: () {
-                          //context.go('/');
-                        },
-                        icon: const Icon(
-                          Icons.phone_android,
-                          color: Colors.black,
-                          size: 50,
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Fundas',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ],
+
+              _CircularCategorie(
+                categorieIcon: Icons.phone_android,
+                categorieName: 'Fundas',
+                categorieRoute: '/profile',
               ),
 
-              Column(
-                children: [
-                  Container(
-                    width: 100, // Tamaño fijo para el círculo
-                    height: 100, // Tamaño fijo para el círculo
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 75, 74, 74),
-                      shape: BoxShape.circle, // Esto hace que sea circular
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        enableFeedback: false,
-                        onPressed: () {
-                          //context.go('/');
-                        },
-                        icon: const Icon(
-                          Icons.headphones,
-                          color: Colors.black,
-                          size: 50,
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Auriculares',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ],
+              _CircularCategorie(
+                categorieIcon: Icons.headphones,
+                categorieName: 'Auriculares',
+                categorieRoute: '/profile',
               ),
 
-              Column(
-                children: [
-                  Container(
-                    width: 100, // Tamaño fijo para el círculo
-                    height: 100, // Tamaño fijo para el círculo
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 75, 74, 74),
-                      shape: BoxShape.circle, // Esto hace que sea circular
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        enableFeedback: false,
-                        onPressed: () {
-                          //context.go('/');
-                        },
-                        icon: const Icon(
-                          Icons.cable,
-                          color: Colors.black,
-                          size: 50,
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Cargadores',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ],
+              _CircularCategorie(
+                categorieIcon: Icons.cable,
+                categorieName: 'Cargadores',
+                categorieRoute: '/profile',
               ),
+              
             ],
           ),
+
           SizedBox(height: 30),
+
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 25),
@@ -176,7 +94,9 @@ class MainScreen extends StatelessWidget {
               style: TextStyle(fontSize: 25, color: Colors.white),
             ),
           ),
+
           const SizedBox(height: 20),
+          
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -295,55 +215,51 @@ class MainScreen extends StatelessWidget {
         ],
       ),
 
-      bottomNavigationBar: Container(
-        height: 70,
-        decoration: BoxDecoration(color: Color.fromARGB(255, 75, 74, 74)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
+    bottomNavigationBar: const CustomBottomNav()
+    );
+  }
+}
+
+class _CircularCategorie extends StatelessWidget {
+  final IconData categorieIcon;
+  final String categorieName;
+  final String categorieRoute;
+
+  const _CircularCategorie({
+    super.key,
+    required this.categorieIcon,
+    required this.categorieName,
+    required this.categorieRoute,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 100, // Tamaño fijo para el círculo
+          height: 100, // Tamaño fijo para el círculo
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 75, 74, 74),
+            shape: BoxShape.circle, // Esto hace que sea circular
+          ),
+          child: Center(
+            child: IconButton(
               enableFeedback: false,
               onPressed: () {
-                context.go('/');
+                context.push(categorieRoute);
               },
-              icon: const Icon(
-                Icons.home_outlined,
-                color: Colors.black,
-                size: 40,
-              ),
+              icon: Icon(categorieIcon, color: Colors.black, size: 50),
+              padding: EdgeInsets.zero,
             ),
-            IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                context.go('/test');
-              },
-              icon: const Icon(Icons.dehaze, color: Colors.black, size: 40),
-            ),
-            IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                //context.go('/');
-              },
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.black,
-                size: 40,
-              ),
-            ),
-            IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                context.go('/profile');
-              },
-              icon: const Icon(
-                Icons.person_outline,
-                color: Colors.black,
-                size: 40,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        const SizedBox(height: 10),
+        Text(
+          categorieName,
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+      ],
     );
   }
 }

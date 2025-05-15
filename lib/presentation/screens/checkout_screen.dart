@@ -1,3 +1,5 @@
+import 'package:accesories_store/widgets/CustomAppBar.dart';
+import 'package:accesories_store/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -7,24 +9,10 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('JKtecno'),
-        backgroundColor: Colors.grey[850],
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 0,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[850],
-        selectedItemColor: Colors.cyan,
-        unselectedItemColor: Colors.cyan,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
-      ),
+      appBar: const CustomAppBar(),
+
+      bottomNavigationBar: CustomBottomNav(),
+      
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: ListView(
