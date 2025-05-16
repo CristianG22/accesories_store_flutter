@@ -70,34 +70,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: Colors.grey[850],
-      selectedItemColor: Colors.cyan,
-      unselectedItemColor: Colors.white,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            context.push('/');
-            break;
-          case 1:
-            context.push('/checkout');
-            break;
-          case 2:
-            context.push('/profile');
-            break;
-        }
-      },
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-      ],
-    );
-  }
-}//Screen a borrar para que se suban la estructura de carpetas

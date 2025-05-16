@@ -44,6 +44,20 @@ class TestScreen extends StatelessWidget {
               ),
               onPressed: () => context.push('/profile'),
             ),
+            const SizedBox(height: 30),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.person),
+              label: const Text('Ir al login'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.cyan,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+              ),
+              onPressed: () => context.push('/login'),
+            ),
           ],
         ),
       ),
