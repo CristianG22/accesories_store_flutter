@@ -1,3 +1,5 @@
+import 'package:accesories_store/widgets/CustomAppBar.dart';
+import 'package:accesories_store/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -7,32 +9,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text(
-          'JKtecno',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.bold,
-            fontSize: 32,
-            letterSpacing: 1,
-          ),
-        ),
-        backgroundColor: Colors.grey[850],
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 0,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[850],
-        selectedItemColor: Colors.cyan,
-        unselectedItemColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
-      ),
+      appBar: const CustomAppBar(),
+      bottomNavigationBar: const CustomBottomNav(),
+
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: ListView(
