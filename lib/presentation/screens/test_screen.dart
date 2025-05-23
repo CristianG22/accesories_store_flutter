@@ -1,3 +1,4 @@
+import 'package:accesories_store/core/services/firestore_seed.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -57,6 +58,44 @@ class TestScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () => context.push('/login'),
+            ),
+
+            const SizedBox(height: 30),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.person),
+              label: const Text('Ir a categorias'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.cyan,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+              ),
+              onPressed: () => context.push('/categories'),
+            ),
+
+            const SizedBox(height: 30),
+
+            ElevatedButton.icon(
+              icon: const Icon(Icons.cloud_upload),
+              label: const Text('Cargar Categorías (DEV)'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+              ),
+              onPressed: () async {
+                await cargarCategoriasConProductos();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Categorías cargadas (si no existían).'),
+                  ),
+                );
+              },
             ),
           ],
         ),
