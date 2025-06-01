@@ -1,6 +1,7 @@
 import 'package:accesories_store/widgets/CustomAppBar.dart';
 import 'package:accesories_store/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
+import '../../presentation/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -131,11 +132,21 @@ class _LoginFormState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(left: 10, bottom: 15),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Registrarme',
-                      style: TextStyle(
-                        color: Colors.lightBlue[600],
-                        fontSize: 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Registrarme',
+                        style: TextStyle(
+                          color: Colors.lightBlue[600],
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
