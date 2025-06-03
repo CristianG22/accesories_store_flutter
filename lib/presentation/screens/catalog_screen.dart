@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 
+
 class CategoriesList extends StatelessWidget {
   const CategoriesList({super.key});
 
@@ -44,7 +45,6 @@ class _CategoriaList extends StatelessWidget {
       return Categorie(
         id: doc.id,
         nombre: doc.get('nombre') ?? 'Sin nombre',
-        // Puedes agregar más campos si los tienes
       );
     }).toList();
   }
