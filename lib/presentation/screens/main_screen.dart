@@ -1,5 +1,5 @@
-import 'package:accesories_store/widgets/CustomAppBar.dart';
-import 'package:accesories_store/widgets/CustomBottomNav.dart';
+import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
+import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,13 +8,55 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('MainScreen build method called!'); // Temporary print statement
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: const CustomAppBar(),
-
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
+      appBar: AppBar(
+        title: const Text(
+          'JKtecno',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 75, 74, 74),
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home, color: Colors.white),
+            onPressed: () {
+              context.go('/');
+            },
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Text(
+                'Menú',
+                style: TextStyle(color: Colors.cyan, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home, color: Colors.cyan),
+              title: const Text('Volver a Home'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/');
+              },
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
         children: [
           const SizedBox(height: 30),
           Center(
@@ -61,7 +103,6 @@ class MainScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-
               _CircularCategorie(
                 categorieIcon: Icons.phone_android,
                 categorieName: 'Fundas',
@@ -79,7 +120,6 @@ class MainScreen extends StatelessWidget {
                 categorieName: 'Cargadores',
                 categorieRoute: '/profile',
               ),
-              
             ],
           ),
 
@@ -96,7 +136,7 @@ class MainScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: 20),
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -212,10 +252,18 @@ class MainScreen extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 20), // Add some padding at the bottom for scrolling
         ],
       ),
-
-    bottomNavigationBar: const CustomBottomNav()
+      bottomNavigationBar: const CustomBottomNav(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.cyan,
+        child: const Icon(Icons.home, color: Colors.black),
+        onPressed: () {
+          context.go('/');
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }

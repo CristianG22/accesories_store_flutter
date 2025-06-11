@@ -39,7 +39,7 @@ class CustomBottomNav extends StatelessWidget {
           IconButton(
             enableFeedback: false,
             onPressed: () {
-              // context.go('/cart');
+              context.go('/cart');
             },
             icon: const Icon(
               Icons.shopping_cart_outlined,

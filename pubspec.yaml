@@ -1,4 +1,4 @@
-name: accesories_store
+name: accesories_store_flutter
 description: "A new Flutter project."
 publish_to: "none"
 version: 0.1.0
@@ -7,15 +7,15 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
-  cloud_firestore: ^5.6.8
-  firebase_auth: ^5.5.4
-  firebase_core: ^3.13.1
-  firebase_storage: ^12.4.6
+  cloud_firestore: ^4.15.5
+  firebase_auth: ^4.17.5
+  firebase_core: ^2.25.4
+  firebase_storage: ^11.6.6
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.6.1
-  go_router: ^15.1.1
-  intl: ^0.18.0
+  go_router: ^15.1.3
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_lints: ^5.0.0

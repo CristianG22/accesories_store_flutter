@@ -1,6 +1,6 @@
-import 'package:accesories_store/entities/categorie.dart';
-import 'package:accesories_store/widgets/CustomAppBar.dart';
-import 'package:accesories_store/widgets/CustomBottomNav.dart';
+import 'package:accesories_store_flutter/entities/categorie.dart';
+import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
+import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';

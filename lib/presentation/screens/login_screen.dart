@@ -1,5 +1,5 @@
-import 'package:accesories_store/widgets/CustomAppBar.dart';
-import 'package:accesories_store/widgets/CustomBottomNav.dart';
+import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
+import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 import '../../presentation/screens/register_screen.dart';
 

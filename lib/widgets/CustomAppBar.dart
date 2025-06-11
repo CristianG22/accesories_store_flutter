@@ -7,12 +7,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
+      title: const Text(
         'JKtecno',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.bold,
-          fontFamily: 'OpenSans',
           color: Colors.black,
         ),
       ),
