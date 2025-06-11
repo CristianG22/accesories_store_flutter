@@ -1,5 +1,5 @@
-import 'package:accesories_store/widgets/CustomAppBar.dart';
-import 'package:accesories_store/widgets/CustomBottomNav.dart';
+import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
+import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,13 +8,110 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('MainScreen build method called!'); // Temporary print statement
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: const CustomAppBar(),
-
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
+      appBar: AppBar(
+        title: const Text(
+          'JKtecno',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 75, 74, 74),
+        elevation: 0,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Text(
+                'Menú',
+                style: TextStyle(color: Colors.cyan, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home, color: Colors.cyan),
+              title: const Text('Volver a Home'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.category, color: Colors.cyan),
+              title: const Text('Ir a categorías'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/categories');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.cloud_upload, color: Colors.orange),
+              title: const Text('Cargar Categorías (DEV)'),
+              onTap: () async {
+                Navigator.pop(context);
+                // Asegúrate de que esta función esté definida en tu proyecto
+                // Por ejemplo, si está en firestore_seed.dart:
+                // await cargarCategoriasConProductos();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Categorías cargadas (si no existían).'),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline, color: Colors.cyan),
+              title: const Text('Ver Detalle de Producto'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/product/mockProductId1'); // Usando un ID de prueba
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.shopping_cart_outlined, color: Colors.cyan),
+              title: const Text('Ir al Carrito'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/cart');
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.login, color: Colors.cyan),
+              title: const Text('Ir al login'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/login');
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.person, color: Colors.cyan),
+              title: const Text('Ir al Perfil'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/profile');
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.shopping_cart, color: Colors.cyan),
+              title: const Text('Ir a Checkout'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/checkout');
+              },
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
         children: [
           const SizedBox(height: 30),
           Center(
@@ -61,7 +158,6 @@ class MainScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-
               _CircularCategorie(
                 categorieIcon: Icons.phone_android,
                 categorieName: 'Fundas',
@@ -79,7 +175,6 @@ class MainScreen extends StatelessWidget {
                 categorieName: 'Cargadores',
                 categorieRoute: '/profile',
               ),
-              
             ],
           ),
 
@@ -96,7 +191,7 @@ class MainScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: 20),
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -212,10 +307,10 @@ class MainScreen extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 20), // Add some padding at the bottom for scrolling
         ],
       ),
-
-    bottomNavigationBar: const CustomBottomNav()
+      bottomNavigationBar: const CustomBottomNav(),
     );
   }
 }
