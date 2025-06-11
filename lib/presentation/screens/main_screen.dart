@@ -23,14 +23,6 @@ class MainScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 75, 74, 74),
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.home, color: Colors.white),
-            onPressed: () {
-              context.go('/');
-            },
-          ),
-        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -51,6 +43,69 @@ class MainScreen extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 context.go('/');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.category, color: Colors.cyan),
+              title: const Text('Ir a categorías'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/categories');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.cloud_upload, color: Colors.orange),
+              title: const Text('Cargar Categorías (DEV)'),
+              onTap: () async {
+                Navigator.pop(context);
+                // Asegúrate de que esta función esté definida en tu proyecto
+                // Por ejemplo, si está en firestore_seed.dart:
+                // await cargarCategoriasConProductos();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Categorías cargadas (si no existían).'),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline, color: Colors.cyan),
+              title: const Text('Ver Detalle de Producto'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/product/mockProductId1'); // Usando un ID de prueba
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.shopping_cart_outlined, color: Colors.cyan),
+              title: const Text('Ir al Carrito'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/cart');
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.login, color: Colors.cyan),
+              title: const Text('Ir al login'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/login');
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.person, color: Colors.cyan),
+              title: const Text('Ir al Perfil'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/profile');
+              },
+            ),
+             ListTile(
+              leading: const Icon(Icons.shopping_cart, color: Colors.cyan),
+              title: const Text('Ir a Checkout'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/checkout');
               },
             ),
           ],
@@ -256,14 +311,6 @@ class MainScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const CustomBottomNav(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.cyan,
-        child: const Icon(Icons.home, color: Colors.black),
-        onPressed: () {
-          context.go('/');
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }

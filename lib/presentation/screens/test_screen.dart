@@ -85,7 +85,7 @@ class TestScreen extends StatelessWidget {
               title: const Text('Ver Detalle de Producto'),
               onTap: () {
                 Navigator.pop(context); // Cierra el Drawer
-                context.push('/product/hardcodedProductId123');
+                context.push('/product/category/3kuhg4HTaHJcdo3gZMin/product/6uoq8Lbrp2w3842QR2c5');
               },
             ),
           ],

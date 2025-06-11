@@ -28,7 +28,8 @@ class CustomBottomNav extends StatelessWidget {
           IconButton(
             enableFeedback: false,
             onPressed: () {
-              context.go('/test');
+              // context.go('/test'); // Comentado para abrir el Drawer
+              Scaffold.of(context).openDrawer(); // Abre el NavigationDrawer
             },
             icon: const Icon(
               Icons.dehaze,

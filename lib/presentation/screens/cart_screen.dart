@@ -54,12 +54,14 @@ class CartScreen extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Total de la compra',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ), // Texto blanco
+                  Expanded(
+                    child: Text(
+                      'Total de la compra',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ), // Texto blanco
+                    ),
                   ),
                   Text(
                     '\$\${total.toStringAsFixed(3)}', // Mostrar total con 3 decimales

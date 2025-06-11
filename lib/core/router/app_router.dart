@@ -43,10 +43,21 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(path: '/cart', builder: (context, state) => const CartScreen()),
     GoRoute(
+      path: '/product/category/:categoryId/product/:productId',
+      builder: (context, state) {
+        final categoryId = state.pathParameters['categoryId']!;
+        final productId = state.pathParameters['productId']!;
+        return ProductDetailScreen(
+          productId: productId,
+          categoryId: categoryId,
+        );
+      },
+    ),
+    GoRoute(
       path: '/product/:productId',
       builder: (context, state) {
         final productId = state.pathParameters['productId']!;
-        return ProductDetailScreen(productId: productId);
+        return ProductDetailScreen(productId: productId, categoryId: 'unknown');
       },
     ),
   ],

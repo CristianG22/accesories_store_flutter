@@ -3,27 +3,76 @@ import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
 import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:accesories_store_flutter/entities/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart'; // Para TextInputFormatter
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:accesories_store_flutter/presentation/providers/cart_provider.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
+  final String categoryId;
 
-  const ProductDetailScreen({super.key, required this.productId});
+  const ProductDetailScreen({
+    super.key,
+    required this.productId,
+    required this.categoryId,
+  });
 
-  Future<Producto?> _fetchProductById(String productId) async {
+  @override
+  ConsumerState<ProductDetailScreen> createState() =>
+      _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
+  final TextEditingController _quantityController = TextEditingController(
+    text: '1',
+  ); // Inicia con 1
+  final _formKey = GlobalKey<FormState>(); // Clave para el formulario
+
+  Future<Producto?> _fetchProductById(
+    String productId,
+    String categoryId,
+  ) async {
     try {
-      final docSnapshot =
-          await FirebaseFirestore.instance
-              .collection('productos')
-              .doc(productId)
-              .get();
+      if (categoryId == 'unknown') {
+        // Fallback: iterate through all categories if categoryId is unknown
+        final categoriesSnapshot =
+            await FirebaseFirestore.instance.collection('categorias').get();
 
-      if (docSnapshot.exists) {
-        return Producto.fromMap(
-          docSnapshot.id,
-          docSnapshot.data() as Map<String, dynamic>,
-        );
+        for (var categoryDoc in categoriesSnapshot.docs) {
+          final docSnapshot =
+              await FirebaseFirestore.instance
+                  .collection('categorias')
+                  .doc(categoryDoc.id)
+                  .collection('productos')
+                  .doc(productId)
+                  .get();
+
+          if (docSnapshot.exists) {
+            return Producto.fromMap(
+              docSnapshot.id,
+              docSnapshot.data() as Map<String, dynamic>,
+            );
+          }
+        }
+        return null; // Product not found in any category
       } else {
-        return null;
+        // Original logic: fetch from specific category
+        final docSnapshot =
+            await FirebaseFirestore.instance
+                .collection('categorias')
+                .doc(categoryId)
+                .collection('productos')
+                .doc(productId)
+                .get();
+
+        if (docSnapshot.exists) {
+          return Producto.fromMap(
+            docSnapshot.id,
+            docSnapshot.data() as Map<String, dynamic>,
+          );
+        } else {
+          return null;
+        }
       }
     } catch (e) {
       print('Error fetching product: $e');
@@ -32,12 +81,18 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   @override
+  void dispose() {
+    _quantityController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
       body: FutureBuilder<Producto?>(
-        future: _fetchProductById(productId),
+        future: _fetchProductById(widget.productId, widget.categoryId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -124,6 +179,52 @@ class ProductDetailScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                      SizedBox(
+                        height: 20,
+                      ), // Espacio antes del campo de cantidad
+                      Text(
+                        'Cantidad:',
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
+                      ),
+                      SizedBox(height: 8),
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _quantityController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ], // Solo números
+                          decoration: InputDecoration(
+                            hintText: 'Ingrese la cantidad',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            filled: true,
+                            fillColor: Color.fromARGB(255, 50, 50, 50),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 10,
+                            ),
+                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Ingrese una cantidad';
+                            }
+                            final quantity = int.tryParse(value);
+                            if (quantity == null || quantity <= 0) {
+                              return 'Ingrese un número válido mayor a 0';
+                            }
+                            if (quantity > producto.stock) {
+                              return 'Stock insuficiente (${producto.stock} unidades disponibles)';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -133,7 +234,23 @@ class ProductDetailScreen extends StatelessWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO: Implement add to cart logic - use the 'producto' object
+                      if (_formKey.currentState!.validate()) {
+                        final quantity = int.parse(_quantityController.text);
+                        ref
+                            .read(cartProvider.notifier)
+                            .addItem(producto, quantity);
+                        print(
+                          'Agregar al carrito: ${producto.nombre}, Cantidad: $quantity',
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Agregado ${quantity}x ${producto.nombre} al carrito.',
+                            ),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyanAccent,
