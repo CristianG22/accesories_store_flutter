@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:accesories_store_flutter/presentation/providers/cart_notifier.dart';
+import 'package:accesories_store_flutter/presentation/providers/cart_provider.dart';
 import 'package:accesories_store_flutter/entities/cart_item.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,9 +9,8 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartItems = ref.watch(cartProvider);
-    final cartNotifier = ref.read(cartProvider.notifier);
-    final total = cartNotifier.getTotal();
+    final cartModel = ref.watch(cartProvider);
+    final total = cartModel.getTotalPrice();
 
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +20,7 @@ class CartScreen extends ConsumerWidget {
             Icons.arrow_back,
             color: Colors.white,
           ), // Flecha de regreso blanca
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: Text(
           'Carrito',
@@ -39,9 +38,9 @@ class CartScreen extends ConsumerWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: cartItems.length,
+                itemCount: cartModel.items.length,
                 itemBuilder: (context, index) {
-                  final cartItem = cartItems[index];
+                  final cartItem = cartModel.items[index];
                   return _CartItemWidget(cartItem: cartItem);
                 },
               ),
@@ -64,7 +63,7 @@ class CartScreen extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    '\$\${total.toStringAsFixed(3)}', // Mostrar total con 3 decimales
+                    '\$${total.toStringAsFixed(3)}', // Mostrar total con 3 decimales
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.cyanAccent,
@@ -123,7 +122,7 @@ class _CartItemWidget extends ConsumerWidget {
             width: 60,
             height: 60,
             child: Image.network(
-              cartItem.producto.imageUrl ?? '',
+              cartItem.product.imageUrl ?? '',
               fit: BoxFit.cover,
               errorBuilder:
                   (context, error, stackTrace) =>
@@ -136,7 +135,7 @@ class _CartItemWidget extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cartItem.producto.nombre,
+                  cartItem.product.nombre,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -145,7 +144,7 @@ class _CartItemWidget extends ConsumerWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  '\$\${cartItem.producto.precio.toStringAsFixed(3)}',
+                  '\$${cartItem.product.precio.toStringAsFixed(3)}',
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],
@@ -156,7 +155,9 @@ class _CartItemWidget extends ConsumerWidget {
               IconButton(
                 icon: Icon(Icons.remove, color: Colors.cyanAccent),
                 onPressed: () {
-                  cartNotifier.decreaseQuantity(cartItem);
+                  ref.read(cartProvider.notifier).updateItemQuantity(
+                    cartItem.product.id, cartItem.quantity - 1,
+                  );
                 },
                 visualDensity: VisualDensity.compact,
               ),
@@ -167,7 +168,9 @@ class _CartItemWidget extends ConsumerWidget {
               IconButton(
                 icon: Icon(Icons.add, color: Colors.cyanAccent),
                 onPressed: () {
-                  cartNotifier.increaseQuantity(cartItem);
+                  ref.read(cartProvider.notifier).updateItemQuantity(
+                    cartItem.product.id, cartItem.quantity + 1,
+                  );
                 },
                 visualDensity: VisualDensity.compact,
               ),
@@ -176,7 +179,7 @@ class _CartItemWidget extends ConsumerWidget {
           IconButton(
             icon: Icon(Icons.delete, color: Colors.cyanAccent),
             onPressed: () {
-              cartNotifier.removeProduct(cartItem);
+              ref.read(cartProvider.notifier).removeItem(cartItem.product.id);
             },
           ),
         ],

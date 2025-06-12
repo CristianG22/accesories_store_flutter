@@ -1,12 +1,16 @@
 import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
 import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:accesories_store_flutter/presentation/providers/cart_provider.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends ConsumerWidget {
   const CheckoutScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartModel = ref.watch(cartProvider);
+    final cartItems = cartModel.items;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
@@ -77,14 +81,21 @@ class CheckoutScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
-              'Producto 1',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
-            const Text(
-              'Producto 2',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
+            if (cartItems.isEmpty)
+              const Text(
+                'El carrito está vacío.',
+                style: TextStyle(color: Colors.white70, fontSize: 18),
+              )
+            else
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: cartItems.map((item) {
+                  return Text(
+                    '${item.product.nombre} x ${item.quantity} (\$${(item.product.precio * item.quantity).toStringAsFixed(3)})',
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  );
+                }).toList(),
+              ),
             const SizedBox(height: 40),
             Center(
               child: ElevatedButton(
@@ -100,7 +111,15 @@ class CheckoutScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Acción de confirmar compra
+                  // Acción de confirmar compra: por ahora, solo muestra un SnackBar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Compra confirmada (funcionalidad completa en desarrollo).'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  // Aquí podrías añadir la lógica para procesar el pago y vaciar el carrito
+                  // ref.read(cartProvider.notifier).clearCart();
                 },
                 child: const Text(
                   'Confirmar compra',
