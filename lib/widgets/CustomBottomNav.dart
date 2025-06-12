@@ -8,9 +8,7 @@ class CustomBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 75, 74, 74),
-      ),
+      decoration: const BoxDecoration(color: Color.fromARGB(255, 75, 74, 74)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -28,11 +26,10 @@ class CustomBottomNav extends StatelessWidget {
           IconButton(
             enableFeedback: false,
             onPressed: () {
-              // context.go('/test'); // Comentado para abrir el Drawer
-              Scaffold.of(context).openDrawer(); // Abre el NavigationDrawer
+              context.go('/categories');
             },
             icon: const Icon(
-              Icons.dehaze,
+              Icons.search_outlined,
               color: Colors.black,
               size: 40,
             ),

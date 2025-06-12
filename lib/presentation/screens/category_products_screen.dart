@@ -14,11 +14,11 @@ class CategoryProductsScreen extends StatelessWidget {
   Future<List<Producto>> _fetchProductsByCategory(String categoryId) async {
     final querySnapshot =
         await FirebaseFirestore.instance
-            .collection('productos') // Cambiado de 'products' a 'productos'
+            .collection('productos') // Colección de productos de nivel superior
             .where(
-              'categoryId',
+              'categoriaId',
               isEqualTo: categoryId,
-            ) // Assuming products have a 'categoryId' field
+            ) // Filtrar por campo categoryId
             .get();
 
     return querySnapshot.docs.map((doc) {
@@ -37,7 +37,7 @@ class CategoryProductsScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           Text(
-            "Products in Category: \$categoryId", // Placeholder title, replace with category name
+            "Products in Category: ${categoryId}", // Muestra el ID de la categoría
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class _CategoryProductItem extends StatelessWidget {
         onTap: () {
           // *** THIS IS THE NAVIGATION TO THE PRODUCT DETAIL SCREEN ***
           context.push(
-            '/product/\${producto.id}',
+            '/product/${producto.id}',
           ); // Navigate to product detail, passing product ID
         },
       ),
