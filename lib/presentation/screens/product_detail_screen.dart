@@ -28,51 +28,25 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   ); // Inicia con 1
   final _formKey = GlobalKey<FormState>(); // Clave para el formulario
 
-  Future<Producto?> _fetchProductById(
-    String productId,
-    String categoryId,
-  ) async {
+  Future<Producto?> _fetchProductById(String productId) async {
     try {
-      if (categoryId == 'unknown') {
-        // Fallback: iterate through all categories if categoryId is unknown
-        final categoriesSnapshot =
-            await FirebaseFirestore.instance.collection('categorias').get();
+      print('DEBUG: Fetching product: productId=$productId');
+      // Búsqueda directa en la colección de productos de nivel superior por su ID
+      final docSnapshot =
+          await FirebaseFirestore.instance
+              .collection(
+                'productos',
+              ) // Apunta a la colección de nivel superior
+              .doc(productId) // Busca directamente por el ID del documento
+              .get();
 
-        for (var categoryDoc in categoriesSnapshot.docs) {
-          final docSnapshot =
-              await FirebaseFirestore.instance
-                  .collection('categorias')
-                  .doc(categoryDoc.id)
-                  .collection('productos')
-                  .doc(productId)
-                  .get();
-
-          if (docSnapshot.exists) {
-            return Producto.fromMap(
-              docSnapshot.id,
-              docSnapshot.data() as Map<String, dynamic>,
-            );
-          }
-        }
-        return null; // Product not found in any category
+      if (docSnapshot.exists) {
+        return Producto.fromMap(
+          docSnapshot.id,
+          docSnapshot.data() as Map<String, dynamic>,
+        );
       } else {
-        // Original logic: fetch from specific category
-        final docSnapshot =
-            await FirebaseFirestore.instance
-                .collection('categorias')
-                .doc(categoryId)
-                .collection('productos')
-                .doc(productId)
-                .get();
-
-        if (docSnapshot.exists) {
-          return Producto.fromMap(
-            docSnapshot.id,
-            docSnapshot.data() as Map<String, dynamic>,
-          );
-        } else {
-          return null;
-        }
+        return null;
       }
     } catch (e) {
       print('Error fetching product: $e');
@@ -92,7 +66,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
       body: FutureBuilder<Producto?>(
-        future: _fetchProductById(widget.productId, widget.categoryId),
+        future: _fetchProductById(widget.productId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
