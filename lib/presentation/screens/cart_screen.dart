@@ -75,7 +75,7 @@ class CartScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: cartModel.items.isEmpty ? null : () {
                   context.push('/checkout');
                 },
                 style: ElevatedButton.styleFrom(
@@ -111,7 +111,7 @@ class _CartItemWidget extends ConsumerWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      padding: EdgeInsets.all(12.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       decoration: BoxDecoration(
         color: Colors.grey[800],
         borderRadius: BorderRadius.circular(10),
@@ -119,8 +119,8 @@ class _CartItemWidget extends ConsumerWidget {
       child: Row(
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
             child: Image.network(
               cartItem.product.imageUrl ?? '',
               fit: BoxFit.cover,
@@ -129,8 +129,9 @@ class _CartItemWidget extends ConsumerWidget {
                       Icon(Icons.image_not_supported, color: Colors.white70),
             ),
           ),
-          SizedBox(width: 12),
+          SizedBox(width: 4),
           Expanded(
+            flex: 1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -141,6 +142,7 @@ class _CartItemWidget extends ConsumerWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -150,37 +152,57 @@ class _CartItemWidget extends ConsumerWidget {
               ],
             ),
           ),
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.remove, color: Colors.cyanAccent),
-                onPressed: () {
-                  ref.read(cartProvider.notifier).updateItemQuantity(
-                    cartItem.product.id, cartItem.quantity - 1,
-                  );
-                },
-                visualDensity: VisualDensity.compact,
-              ),
-              Text(
-                '\${cartItem.quantity}',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              IconButton(
-                icon: Icon(Icons.add, color: Colors.cyanAccent),
-                onPressed: () {
-                  ref.read(cartProvider.notifier).updateItemQuantity(
-                    cartItem.product.id, cartItem.quantity + 1,
-                  );
-                },
-                visualDensity: VisualDensity.compact,
-              ),
-            ],
+          Expanded( // Expanded for quantity controls
+            flex: 3, // Increased flex for quantity controls
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 24, // Fixed width
+                  height: 24, // Fixed height
+                  child: IconButton(
+                    icon: Icon(Icons.remove, color: Colors.cyanAccent),
+                    onPressed: () {
+                      ref.read(cartProvider.notifier).updateItemQuantity(
+                        cartItem.product.id, cartItem.quantity - 1,
+                      );
+                    },
+                    padding: EdgeInsets.zero, // Still zero padding
+                    visualDensity: VisualDensity.compact, // Still compact visual density
+                  ),
+                ),
+                Flexible( // Ensure the quantity text is flexible
+                  child: Text(
+                    cartItem.quantity.toString(), // Muestra solo el número de la cantidad
+                    style: TextStyle(color: Colors.white, fontSize: 14), // Reduced font size
+                  ),
+                ),
+                SizedBox(
+                  width: 24, // Fixed width
+                  height: 24, // Fixed height
+                  child: IconButton(
+                    icon: Icon(Icons.add, color: Colors.cyanAccent),
+                    onPressed: () {
+                      ref.read(cartProvider.notifier).updateItemQuantity(
+                        cartItem.product.id, cartItem.quantity + 1,
+                      );
+                    },
+                    padding: EdgeInsets.zero, // Still zero padding
+                    visualDensity: VisualDensity.compact, // Still compact visual density
+                  ),
+                ),
+              ],
+            ),
           ),
-          IconButton(
-            icon: Icon(Icons.delete, color: Colors.cyanAccent),
-            onPressed: () {
-              ref.read(cartProvider.notifier).removeItem(cartItem.product.id);
-            },
+          SizedBox( // Fixed width for delete button
+            width: 24, // Fixed width
+            height: 24, // Fixed height
+            child: IconButton(
+              icon: Icon(Icons.delete, color: Colors.cyanAccent),
+              onPressed: () {
+                ref.read(cartProvider.notifier).removeItem(cartItem.product.id);
+              },
+              padding: EdgeInsets.zero, // Still zero padding
+            ),
           ),
         ],
       ),
