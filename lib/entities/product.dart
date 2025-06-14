@@ -27,7 +27,7 @@ class Producto {
       precio: (data['precio'] ?? 0).toDouble(),
       stock: data['stock'] ?? 0,
       enOferta: data['enOferta'] ?? false,
-      imageUrl: data['imageUrl'] as String?,
+      imageUrl: data['imagenUrl'] as String?,
       categoryId: data['categoryId'] ?? '',
     );
   }
