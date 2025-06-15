@@ -5,10 +5,47 @@ import 'package:accesories_store_flutter/entities/product.dart'; // Assuming you
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 
-class CategoryProductsScreen extends StatelessWidget {
+class CategoryProductsScreen extends StatefulWidget {
   final String categoryId;
 
   const CategoryProductsScreen({super.key, required this.categoryId});
+
+  @override
+  State<CategoryProductsScreen> createState() => _CategoryProductsScreenState();
+}
+
+class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
+  String _categoryName = 'Cargando...'; // Estado para el nombre de la categoría
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCategoryName();
+  }
+
+  Future<void> _fetchCategoryName() async {
+    try {
+      final docSnapshot =
+          await FirebaseFirestore.instance
+              .collection('categorias')
+              .doc(widget.categoryId)
+              .get();
+      if (docSnapshot.exists) {
+        setState(() {
+          _categoryName = docSnapshot.get('nombre') ?? 'Categoría Desconocida';
+        });
+      } else {
+        setState(() {
+          _categoryName = 'Categoría No Encontrada';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _categoryName = 'Error al cargar categoría';
+      });
+      print('Error fetching category name: $e');
+    }
+  }
 
   // Function to fetch products for a given category
   Future<List<Producto>> _fetchProductsByCategory(String categoryId) async {
@@ -37,7 +74,7 @@ class CategoryProductsScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           Text(
-            "Products in Category: ${categoryId}", // Muestra el ID de la categoría
+            _categoryName, // Muestra el nombre de la categoría
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -48,7 +85,7 @@ class CategoryProductsScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Expanded(
             child: FutureBuilder<List<Producto>>(
-              future: _fetchProductsByCategory(categoryId),
+              future: _fetchProductsByCategory(widget.categoryId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -123,7 +160,7 @@ class _CategoryProductItem extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          '\$\${producto.precio.toStringAsFixed(3)}',
+          '\$${producto.precio.toStringAsFixed(2)}',
           style: TextStyle(color: Colors.white70),
         ),
         trailing: Icon(Icons.arrow_forward_ios, color: Colors.white70),

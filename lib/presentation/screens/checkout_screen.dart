@@ -168,7 +168,7 @@ class CheckoutScreen extends ConsumerWidget {
                 children:
                     cartItems.map((item) {
                       return Text(
-                        '${item.product.nombre} x ${item.quantity} (\$${(item.product.precio * item.quantity).toStringAsFixed(3)})',
+                        '${item.product.nombre} x ${item.quantity} (\$${(item.product.precio * item.quantity).toStringAsFixed(2)})',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
