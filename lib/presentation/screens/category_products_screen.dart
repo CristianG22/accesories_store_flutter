@@ -14,13 +14,22 @@ class CategoryProductsScreen extends StatefulWidget {
   State<CategoryProductsScreen> createState() => _CategoryProductsScreenState();
 }
 
-class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
+class _CategoryProductsScreenState extends State<CategoryProductsScreen>
+    with SingleTickerProviderStateMixin {
   String _categoryName = 'Cargando...'; // Estado para el nombre de la categoría
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _fetchCategoryName();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchCategoryName() async {
@@ -64,6 +73,21 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
     }).toList();
   }
 
+  Future<List<Producto>> _fetchSpecialOffersByCategory(
+    String categoryId,
+  ) async {
+    final querySnapshot =
+        await FirebaseFirestore.instance
+            .collection('productos')
+            .where('categoriaId', isEqualTo: categoryId)
+            .where('enOferta', isEqualTo: true) // Filter by special offer
+            .get();
+
+    return querySnapshot.docs.map((doc) {
+      return Producto.fromMap(doc.id, doc.data() as Map<String, dynamic>);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,41 +107,93 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
+          // Add TabBar for All Products and Special Offers
+          TabBar(
+            controller: _tabController,
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.grey,
+            tabs: const [
+              Tab(text: 'Todos los Productos'),
+              Tab(text: 'Ofertas Especiales'),
+            ],
+          ),
           Expanded(
-            child: FutureBuilder<List<Producto>>(
-              future: _fetchProductsByCategory(widget.categoryId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      'Error loading products: \${snapshot.error}',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  );
-                }
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No products found in this category.',
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                  );
-                }
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // Tab 1: All Products
+                FutureBuilder<List<Producto>>(
+                  future: _fetchProductsByCategory(widget.categoryId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          'Error loading products: \${snapshot.error}',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No products found in this category.',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      );
+                    }
 
-                final productos = snapshot.data!;
+                    final productos = snapshot.data!;
 
-                return ListView.builder(
-                  itemCount: productos.length,
-                  itemBuilder: (context, index) {
-                    final producto = productos[index];
-                    // This is the widget for a single product item in the list
-                    return _CategoryProductItem(producto: producto);
+                    return ListView.builder(
+                      itemCount: productos.length,
+                      itemBuilder: (context, index) {
+                        final producto = productos[index];
+                        return _CategoryProductItem(producto: producto);
+                      },
+                    );
                   },
-                );
-              },
+                ),
+
+                // Tab 2: Special Offers
+                FutureBuilder<List<Producto>>(
+                  future: _fetchSpecialOffersByCategory(widget.categoryId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          'Error loading special offers: \${snapshot.error}',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No special offers found in this category.',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      );
+                    }
+
+                    final offers = snapshot.data!;
+
+                    return ListView.builder(
+                      itemCount: offers.length,
+                      itemBuilder: (context, index) {
+                        final product = offers[index];
+                        return _CategoryProductItem(producto: product);
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ],
