@@ -7,7 +7,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
 
   void addProduct(Producto producto) {
     final existingItemIndex = state.indexWhere(
-      (item) => item.producto.nombre == producto.nombre,
+      (item) => item.product.nombre == producto.nombre,
     );
 
     if (existingItemIndex != -1) {
@@ -16,7 +16,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
         for (int i = 0; i < state.length; i++)
           if (i == existingItemIndex)
             CartItem(
-              producto: state[i].producto,
+              product: state[i].product,
               quantity: state[i].quantity + 1,
             )
           else
@@ -24,22 +24,22 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
       ];
     } else {
       // Product not in cart, add new item
-      state = [...state, CartItem(producto: producto)];
+      state = [...state, CartItem(product: producto)];
     }
   }
 
   void removeProduct(CartItem cartItem) {
     state =
         state
-            .where((item) => item.producto.nombre != cartItem.producto.nombre)
+            .where((item) => item.product.nombre != cartItem.product.nombre)
             .toList();
   }
 
   void increaseQuantity(CartItem cartItem) {
     state = [
       for (final item in state)
-        if (item.producto.nombre == cartItem.producto.nombre)
-          CartItem(producto: item.producto, quantity: item.quantity + 1)
+        if (item.product.nombre == cartItem.product.nombre)
+          CartItem(product: item.product, quantity: item.quantity + 1)
         else
           item,
     ];
@@ -49,8 +49,8 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     if (cartItem.quantity > 1) {
       state = [
         for (final item in state)
-          if (item.producto.nombre == cartItem.producto.nombre)
-            CartItem(producto: item.producto, quantity: item.quantity - 1)
+          if (item.product.nombre == cartItem.product.nombre)
+            CartItem(product: item.product, quantity: item.quantity - 1)
           else
             item,
       ];
@@ -63,7 +63,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
   double getTotal() {
     return state.fold(
       0.0,
-      (total, item) => total + (item.producto.precio * item.quantity),
+      (total, item) => total + (item.product.precio * item.quantity),
     );
   }
 }
