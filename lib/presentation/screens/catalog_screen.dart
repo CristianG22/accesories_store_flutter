@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 
-
 class CategoriesList extends StatelessWidget {
   const CategoriesList({super.key});
 
@@ -41,12 +40,20 @@ class _CategoriaList extends StatelessWidget {
   Future<List<Categorie>> _fetchCategorias() async {
     final querySnapshot =
         await FirebaseFirestore.instance.collection('categorias').get();
-    return querySnapshot.docs.map((doc) {
-      return Categorie(
-        id: doc.id,
-        nombre: doc.get('nombre') ?? 'Sin nombre',
-      );
-    }).toList();
+
+    // Crear un Set para rastrear nombres únicos
+    final Set<String> nombresUnicos = {};
+    final List<Categorie> categoriasUnicas = [];
+
+    for (var doc in querySnapshot.docs) {
+      final nombre = doc.get('nombre') ?? 'Sin nombre';
+      // Solo agregar si el nombre no ha sido visto antes
+      if (nombresUnicos.add(nombre)) {
+        categoriasUnicas.add(Categorie(id: doc.id, nombre: nombre));
+      }
+    }
+
+    return categoriasUnicas;
   }
 
   @override

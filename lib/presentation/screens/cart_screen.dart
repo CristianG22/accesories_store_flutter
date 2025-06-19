@@ -20,7 +20,10 @@ class CartScreen extends ConsumerWidget {
             Icons.arrow_back,
             color: Colors.white,
           ), // Flecha de regreso blanca
-          onPressed: () => context.pop(),
+          onPressed: () {
+            // Siempre intenta ir a la pantalla de categorías si no puede hacer pop
+            context.go('/categories');
+          },
         ),
         title: Text(
           'Carrito',
@@ -63,7 +66,7 @@ class CartScreen extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    '\$${total.toStringAsFixed(3)}', // Mostrar total con 3 decimales
+                    '\$${total.toStringAsFixed(2)}', // Mostrar total con 2 decimales
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.cyanAccent,
@@ -75,9 +78,12 @@ class CartScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: cartModel.items.isEmpty ? null : () {
-                  context.push('/checkout');
-                },
+                onPressed:
+                    cartModel.items.isEmpty
+                        ? null
+                        : () {
+                          context.push('/checkout');
+                        },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.cyanAccent, // Color de fondo turquesa
                   padding: EdgeInsets.symmetric(vertical: 15),
@@ -131,7 +137,7 @@ class _CartItemWidget extends ConsumerWidget {
           ),
           SizedBox(width: 4),
           Expanded(
-            flex: 1,
+            flex: 2, // Ajustado para dar más espacio al nombre del producto
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -142,18 +148,19 @@ class _CartItemWidget extends ConsumerWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                  overflow: TextOverflow.ellipsis,
+                  // overflow: TextOverflow.ellipsis, // Se eliminó para permitir el nombre completo
                 ),
                 SizedBox(height: 8),
                 Text(
-                  '\$${cartItem.product.precio.toStringAsFixed(3)}',
+                  '\$${cartItem.product.precio.toStringAsFixed(2)}',
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],
             ),
           ),
-          Expanded( // Expanded for quantity controls
-            flex: 3, // Increased flex for quantity controls
+          Expanded(
+            // Expanded for quantity controls
+            flex: 2, // Ajustado para mantener proporción con el nombre
             child: Row(
               children: [
                 SizedBox(
@@ -162,18 +169,27 @@ class _CartItemWidget extends ConsumerWidget {
                   child: IconButton(
                     icon: Icon(Icons.remove, color: Colors.cyanAccent),
                     onPressed: () {
-                      ref.read(cartProvider.notifier).updateItemQuantity(
-                        cartItem.product.id, cartItem.quantity - 1,
-                      );
+                      ref
+                          .read(cartProvider.notifier)
+                          .updateItemQuantity(
+                            cartItem.product.id,
+                            cartItem.quantity - 1,
+                          );
                     },
                     padding: EdgeInsets.zero, // Still zero padding
-                    visualDensity: VisualDensity.compact, // Still compact visual density
+                    visualDensity:
+                        VisualDensity.compact, // Still compact visual density
                   ),
                 ),
-                Flexible( // Ensure the quantity text is flexible
+                Flexible(
+                  // Ensure the quantity text is flexible
                   child: Text(
-                    cartItem.quantity.toString(), // Muestra solo el número de la cantidad
-                    style: TextStyle(color: Colors.white, fontSize: 14), // Reduced font size
+                    cartItem.quantity
+                        .toString(), // Muestra solo el número de la cantidad
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ), // Reduced font size
                   ),
                 ),
                 SizedBox(
@@ -182,18 +198,23 @@ class _CartItemWidget extends ConsumerWidget {
                   child: IconButton(
                     icon: Icon(Icons.add, color: Colors.cyanAccent),
                     onPressed: () {
-                      ref.read(cartProvider.notifier).updateItemQuantity(
-                        cartItem.product.id, cartItem.quantity + 1,
-                      );
+                      ref
+                          .read(cartProvider.notifier)
+                          .updateItemQuantity(
+                            cartItem.product.id,
+                            cartItem.quantity + 1,
+                          );
                     },
                     padding: EdgeInsets.zero, // Still zero padding
-                    visualDensity: VisualDensity.compact, // Still compact visual density
+                    visualDensity:
+                        VisualDensity.compact, // Still compact visual density
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox( // Fixed width for delete button
+          SizedBox(
+            // Fixed width for delete button
             width: 24, // Fixed width
             height: 24, // Fixed height
             child: IconButton(

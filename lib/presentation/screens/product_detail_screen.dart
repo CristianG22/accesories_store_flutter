@@ -131,7 +131,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        '\$' + producto.precio.toStringAsFixed(3),
+                        '\$' + producto.precio.toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
