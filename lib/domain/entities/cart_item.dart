@@ -1,4 +1,4 @@
-import 'package:accesories_store_flutter/entities/product.dart';
+import 'package:accesories_store_flutter/domain/entities/product.dart';
 
 class CartItem {
   final Producto product;

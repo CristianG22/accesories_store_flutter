@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:accesories_store_flutter/domain/models/cart_model.dart';
-import 'package:accesories_store_flutter/entities/product.dart';
+import 'package:accesories_store_flutter/domain/entities/product.dart';
+import 'cart_notifier.dart';
 
 // Este StateNotifier manejará el estado del carrito
 class CartNotifier extends StateNotifier<CartModel> {

@@ -1,5 +1,5 @@
-import 'package:accesories_store_flutter/entities/product.dart';
-import 'package:accesories_store_flutter/entities/cart_item.dart';
+import 'package:accesories_store_flutter/domain/entities/product.dart';
+import 'package:accesories_store_flutter/domain/entities/cart_item.dart';
 
 class CartModel {
   final List<CartItem> _items;
