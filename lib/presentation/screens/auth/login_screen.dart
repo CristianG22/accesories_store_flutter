@@ -1,7 +1,7 @@
 import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
 import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:flutter/material.dart';
-import '../../presentation/screens/register_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

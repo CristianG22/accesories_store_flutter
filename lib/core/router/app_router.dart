@@ -1,15 +1,15 @@
-import 'package:accesories_store_flutter/presentation/screens/catalog_screen.dart';
-import 'package:accesories_store_flutter/presentation/screens/login_screen.dart';
+import 'package:accesories_store_flutter/presentation/screens/products/catalog_screen.dart';
+import 'package:accesories_store_flutter/presentation/screens/auth/login_screen.dart';
 import 'package:accesories_store_flutter/presentation/screens/main_screen.dart';
-import 'package:accesories_store_flutter/presentation/screens/register_screen.dart';
+import 'package:accesories_store_flutter/presentation/screens/auth/register_screen.dart';
 import 'package:go_router/go_router.dart';
 import '../../presentation/screens/home_screen.dart';
 import '../../presentation/screens/test_screen.dart';
-import '../../presentation/screens/checkout_screen.dart';
-import '../../presentation/screens/profile_screen.dart';
-import '../../presentation/screens/cart_screen.dart';
-import '../../presentation/screens/product_detail_screen.dart';
-import 'package:accesories_store_flutter/presentation/screens/category_products_screen.dart';
+import '../../presentation/screens/cart/checkout_screen.dart';
+import '../../presentation/screens/user/profile_screen.dart';
+import '../../presentation/screens/cart/cart_screen.dart';
+import '../../presentation/screens/products/product_detail_screen.dart';
+import 'package:accesories_store_flutter/presentation/screens/products/category_products_screen.dart';
 import 'package:accesories_store_flutter/presentation/screens/test_drawer.dart';
 
 final GoRouter router = GoRouter(
@@ -43,21 +43,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(path: '/cart', builder: (context, state) => const CartScreen()),
     GoRoute(
-      path: '/product/category/:categoryId/product/:productId',
-      builder: (context, state) {
-        final categoryId = state.pathParameters['categoryId']!;
-        final productId = state.pathParameters['productId']!;
-        return ProductDetailScreen(
-          productId: productId,
-          categoryId: categoryId,
-        );
-      },
-    ),
-    GoRoute(
       path: '/product/:productId',
       builder: (context, state) {
         final productId = state.pathParameters['productId']!;
-        return ProductDetailScreen(productId: productId, categoryId: 'unknown');
+        return ProductDetailScreen(productId: productId);
       },
     ),
   ],
