@@ -18,9 +18,8 @@ class ProductRepositoryImpl implements ProductRepository {
           .map((doc) => Producto.fromMap(doc.id, doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      // En una app real, podrías manejar este error de forma más elegante
       print('Error fetching special offers: $e');
-      throw e; // O retornar una lista vacía, dependiendo de tu lógica de manejo de errores
+      throw e; 
     }
   }
 

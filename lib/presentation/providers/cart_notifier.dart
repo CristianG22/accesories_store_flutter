@@ -11,7 +11,6 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     );
 
     if (existingItemIndex != -1) {
-      // Product already in cart, increase quantity
       state = [
         for (int i = 0; i < state.length; i++)
           if (i == existingItemIndex)
@@ -23,7 +22,6 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
             state[i],
       ];
     } else {
-      // Product not in cart, add new item
       state = [...state, CartItem(product: producto)];
     }
   }
@@ -55,7 +53,6 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
             item,
       ];
     } else {
-      // If quantity is 1, remove the item
       removeProduct(cartItem);
     }
   }

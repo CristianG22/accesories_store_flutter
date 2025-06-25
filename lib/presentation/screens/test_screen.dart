@@ -84,7 +84,7 @@ class TestScreen extends StatelessWidget {
               leading: const Icon(Icons.info_outline, color: Colors.cyan),
               title: const Text('Ver Detalle de Producto'),
               onTap: () {
-                Navigator.pop(context); // Cierra el Drawer
+                Navigator.pop(context); 
                 context.push('/product/category/3kuhg4HTaHJcdo3gZMin/product/6uoq8Lbrp2w3842QR2c5');
               },
             ),

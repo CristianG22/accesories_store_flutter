@@ -41,7 +41,7 @@ class CategoryProductsScreen extends ConsumerWidget {
           Expanded(
             child: productsAsyncValue.when(
               data: (productos) {
-                // Filtrar y ordenar productos según búsqueda y filtro
+                
                 var filtered = productos.where((p) => p.nombre.toLowerCase().contains(searchText.toLowerCase())).toList();
                 switch (selectedFilter) {
                   case 'Precio: menor a mayor':
@@ -72,7 +72,7 @@ class CategoryProductsScreen extends ConsumerWidget {
               error: (error, stack) => Center(child: Text('Error al cargar productos: $error', style: const TextStyle(color: Colors.red))),
             ),
           ),
-          // Búsqueda Rápida al final
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16),
             child: Card(

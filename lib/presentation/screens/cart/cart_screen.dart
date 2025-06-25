@@ -14,14 +14,14 @@ class CartScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[850], // Fondo oscuro similar a la imagen
+        backgroundColor: Colors.grey[850], 
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
             color: Colors.white,
-          ), // Flecha de regreso blanca
+          ), 
           onPressed: () {
-            // Siempre intenta ir a la pantalla de categorías si no puede hacer pop
+            
             context.go('/categories');
           },
         ),
@@ -31,12 +31,12 @@ class CartScreen extends ConsumerWidget {
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
-          ), // Título blanco y negrita
+          ), 
         ),
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.black, // Fondo negro para el cuerpo
+        color: Colors.black, 
         child: Column(
           children: [
             Expanded(
@@ -62,15 +62,15 @@ class CartScreen extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
-                      ), // Texto blanco
+                      ), 
                     ),
                   ),
                   Text(
-                    '\$${total.toStringAsFixed(2)}', // Mostrar total con 2 decimales
+                    '\$${total.toStringAsFixed(2)}', 
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.cyanAccent,
-                    ), // Color turquesa similar a la imagen
+                    ), 
                   ),
                 ],
               ),
@@ -85,7 +85,7 @@ class CartScreen extends ConsumerWidget {
                           context.push('/checkout');
                         },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.cyanAccent, // Color de fondo turquesa
+                  backgroundColor: Colors.cyanAccent, 
                   padding: EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -137,7 +137,7 @@ class _CartItemWidget extends ConsumerWidget {
           ),
           SizedBox(width: 4),
           Expanded(
-            flex: 2, // Ajustado para dar más espacio al nombre del producto
+            flex: 2, 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -148,7 +148,7 @@ class _CartItemWidget extends ConsumerWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                  // overflow: TextOverflow.ellipsis, // Se eliminó para permitir el nombre completo
+                  
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -159,13 +159,13 @@ class _CartItemWidget extends ConsumerWidget {
             ),
           ),
           Expanded(
-            // Expanded for quantity controls
-            flex: 2, // Ajustado para mantener proporción con el nombre
+            
+            flex: 2, 
             child: Row(
               children: [
                 SizedBox(
-                  width: 24, // Fixed width
-                  height: 24, // Fixed height
+                  width: 24, 
+                  height: 24, 
                   child: IconButton(
                     icon: Icon(Icons.remove, color: Colors.cyanAccent),
                     onPressed: () {
@@ -176,25 +176,25 @@ class _CartItemWidget extends ConsumerWidget {
                             cartItem.quantity - 1,
                           );
                     },
-                    padding: EdgeInsets.zero, // Still zero padding
+                    padding: EdgeInsets.zero,
                     visualDensity:
-                        VisualDensity.compact, // Still compact visual density
+                        VisualDensity.compact, 
                   ),
                 ),
                 Flexible(
-                  // Ensure the quantity text is flexible
+                  
                   child: Text(
                     cartItem.quantity
-                        .toString(), // Muestra solo el número de la cantidad
+                        .toString(), 
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
-                    ), // Reduced font size
+                    ), 
                   ),
                 ),
                 SizedBox(
-                  width: 24, // Fixed width
-                  height: 24, // Fixed height
+                  width: 24, 
+                  height: 24, 
                   child: IconButton(
                     icon: Icon(Icons.add, color: Colors.cyanAccent),
                     onPressed: () {
@@ -205,24 +205,24 @@ class _CartItemWidget extends ConsumerWidget {
                             cartItem.quantity + 1,
                           );
                     },
-                    padding: EdgeInsets.zero, // Still zero padding
+                    padding: EdgeInsets.zero, 
                     visualDensity:
-                        VisualDensity.compact, // Still compact visual density
+                        VisualDensity.compact, 
                   ),
                 ),
               ],
             ),
           ),
           SizedBox(
-            // Fixed width for delete button
-            width: 24, // Fixed width
-            height: 24, // Fixed height
+            
+            width: 24, 
+            height: 24, 
             child: IconButton(
               icon: Icon(Icons.delete, color: Colors.cyanAccent),
               onPressed: () {
                 ref.read(cartProvider.notifier).removeItem(cartItem.product.id);
               },
-              padding: EdgeInsets.zero, // Still zero padding
+              padding: EdgeInsets.zero, 
             ),
           ),
         ],

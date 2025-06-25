@@ -3,7 +3,7 @@ import 'package:accesories_store_flutter/widgets/CustomAppBar.dart';
 import 'package:accesories_store_flutter/widgets/CustomBottomNav.dart';
 import 'package:accesories_store_flutter/domain/entities/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart'; // Para TextInputFormatter
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:accesories_store_flutter/presentation/providers/cart_provider.dart';
 import 'package:accesories_store_flutter/presentation/providers/products_providers.dart';

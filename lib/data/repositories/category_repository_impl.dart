@@ -12,8 +12,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
     try {
       final docSnapshot = await _firestore.collection('categorias').doc(categoryId).get();
       if (docSnapshot.exists) {
-        // Asegúrate de que el campo en Firestore se llame 'nombre'
-        return docSnapshot.data()?['nombre'] ?? 'Nombre no encontrado';
+       return docSnapshot.data()?['nombre'] ?? 'Nombre no encontrado';
       } else {
         return 'Categoría desconocida';
       }

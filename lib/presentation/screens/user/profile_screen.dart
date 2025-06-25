@@ -57,7 +57,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            // Aquí puedes agregar los pedidos del historial
+            
           ],
         ),
       ),

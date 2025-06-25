@@ -3,14 +3,13 @@ import 'package:accesories_store_flutter/domain/models/cart_model.dart';
 import 'package:accesories_store_flutter/domain/entities/product.dart';
 import 'cart_notifier.dart';
 
-// Este StateNotifier manejará el estado del carrito
 class CartNotifier extends StateNotifier<CartModel> {
-  CartNotifier() : super(CartModel()); // Inicializa con un carrito vacío
+  CartNotifier() : super(CartModel()); 
 
   void addItem(Producto product, int quantity) {
-    // Modifica el estado actual del CartModel
+    
     state.addItem(product, quantity);
-    // Crea una nueva instancia del CartModel a partir del estado modificado, lo que dispara la notificación
+    
     state = CartModel.fromExisting(state);
   }
 
@@ -26,12 +25,12 @@ class CartNotifier extends StateNotifier<CartModel> {
 
   void clearCart() {
     state.clearCart();
-    // Asignar una nueva instancia vacía para notificar
+    
     state = CartModel();
   }
 }
 
-// El proveedor que expondrá nuestro CartNotifier
+
 final cartProvider = StateNotifierProvider<CartNotifier, CartModel>((ref) {
   return CartNotifier();
 }); 

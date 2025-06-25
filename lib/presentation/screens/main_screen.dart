@@ -8,11 +8,11 @@ import 'package:accesories_store_flutter/domain/entities/product.dart';
 import 'package:accesories_store_flutter/domain/entities/categorie.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Provider que obtiene y filtra las ofertas especiales
+
 final specialOffersProvider = FutureProvider.autoDispose<List<Producto>>((ref) async {
   final productRepository = ref.watch(productRepositoryProvider);
   List<Producto> products = await productRepository.getSpecialOffers();
-  // La lógica de filtrado y ordenamiento fue removida.
+  
   return products;
 });
 
@@ -54,7 +54,7 @@ class MainScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 25),
-          // --- Sección de Categorías ---
+          
           allCategories.when(
             data: (categories) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -89,7 +89,7 @@ class MainScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 24),
-          // --- Sección de Ofertas Especiales ---
+         
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.98,
@@ -124,7 +124,7 @@ class MainScreen extends ConsumerWidget {
   }
 }
 
-// Widget para el ícono de categoría
+
 class _CategoryIcon extends StatelessWidget {
   final Categorie category;
 
@@ -147,7 +147,7 @@ class _CategoryIcon extends StatelessWidget {
     } else if (lowerCaseName.contains('parlante')) {
       return Icons.speaker;
     }
-    return Icons.category; // Icono por defecto
+    return Icons.category; 
   }
 
   @override
@@ -185,7 +185,7 @@ class _CategoryIcon extends StatelessWidget {
   }
 }
 
-// Widget para la tarjeta de producto
+
 class _ProductCardItem extends StatelessWidget {
   final Producto product;
 

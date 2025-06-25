@@ -19,7 +19,7 @@ class CheckoutScreen extends ConsumerWidget {
           backgroundColor: Colors.green,
         ),
       );
-      // Resetea el estado y navega a la pantalla de inicio o de pedidos.
+     
       ref.read(checkoutNotifierProvider.notifier).reset();
       context.go('/');
     } else if (state == CheckoutState.error) {
@@ -79,15 +79,15 @@ class CheckoutScreen extends ConsumerWidget {
                 onPressed: (cart.items.isEmpty || checkoutState == CheckoutState.loading)
                     ? null
                     : () {
-                        // Crear el objeto Order y llamar al notifier
+                        
                         final order = Order(
-                          id: '', // Firestore lo generará
-                          userId: 'guest_user', // TODO: Reemplazar con ID de usuario real
+                          id: '', 
+                          userId: 'guest_user', 
                           items: cart.items,
                           totalAmount: cart.getTotalPrice(),
                           purchaseDate: DateTime.now(),
                           status: 'pending',
-                          billingInfo: const { // Datos simulados
+                          billingInfo: const { 
                             'nombre': 'Usuario Prueba',
                             'email': 'usuario.prueba@example.com',
                             'direccion': 'Calle Ficticia 123',

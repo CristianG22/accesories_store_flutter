@@ -41,13 +41,13 @@ class _CategoriaList extends StatelessWidget {
     final querySnapshot =
         await FirebaseFirestore.instance.collection('categorias').get();
 
-    // Crear un Set para rastrear nombres únicos
+    
     final Set<String> nombresUnicos = {};
     final List<Categorie> categoriasUnicas = [];
 
     for (var doc in querySnapshot.docs) {
       final nombre = doc.get('nombre') ?? 'Sin nombre';
-      // Solo agregar si el nombre no ha sido visto antes
+      
       if (nombresUnicos.add(nombre)) {
         categoriasUnicas.add(Categorie(id: doc.id, nombre: nombre));
       }

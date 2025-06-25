@@ -12,9 +12,8 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       await _firestore.collection('orders').add(order.toMap());
     } catch (e) {
-      // Manejo de errores específico del repositorio
       print('Error al guardar la orden en Firestore: $e');
-      rethrow; // Relanzar para que la capa superior (el notifier) pueda manejarlo
+      rethrow; 
     }
   }
 } 
